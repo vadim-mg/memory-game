@@ -1,6 +1,6 @@
 import '@/scss/components/_header.scss';
 import '@/scss/components/_container.scss';
-import { Button } from './button.js';
+import { Button } from './Button.js';
 
 export class Header {
     #header

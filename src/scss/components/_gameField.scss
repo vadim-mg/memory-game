@@ -1,0 +1,9 @@
+.game-field {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(4, min-content);
+    gap: 1rem;
+    container-type: inline-size;
+    padding: 1rem;
+
+}

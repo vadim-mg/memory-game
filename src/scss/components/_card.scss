@@ -1,0 +1,14 @@
+.card {
+    // width: calc(100dvw / 5);
+    width: calc((100cqw - 4rem) / 4);
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid #000;
+}
+
+.card_image {
+    width: 100%;
+}
