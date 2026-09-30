@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/vadim-mg/memory-game#readme",
   "devDependencies": {
+    "sass-embedded": "^1.105.1",
     "vite": "^8.3.1"
   }
 }
