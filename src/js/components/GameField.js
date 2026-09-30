@@ -15,6 +15,7 @@ export class GameField {
     }
 
     initCards() {
+        this.#element.replaceChildren();
 
         this.#cards = Array.from({ length: 16 }, (_, i) => i + 1);
         this.#cards.sort(() => Math.random() - 0.5);
