@@ -1,40 +1,8 @@
+import { CARD_IMAGES } from './images.js';
 import '@/scss/components/_gameField.scss';
 import { Card } from './Card.js';
 
-const CARD_IMAGES = [
-    {
-        url: './src/images/01.jpeg',
-        altText: 'Банан',
-    },
-    {
-        url: './src/images/02.jpeg',
-        altText: 'Авокадо',
-    },
-    {
-        url: './src/images/03.jpeg',
-        altText: 'Ежик:)',
-    },
-    {
-        url: './src/images/04.jpeg',
-        altText: 'Фрукт экзотический',
-    },
-    {
-        url: './src/images/05.jpeg',
-        altText: 'Почти слива',
-    },
-    {
-        url: './src/images/06.jpeg',
-        altText: 'Яблоко',
-    },
-    {
-        url: './src/images/07.jpeg',
-        altText: 'Грейпфрут',
-    },
-    {
-        url: './src/images/08.jpeg',
-        altText: 'Лайм',
-    }
-]
+
 
 export class GameField {
     #element
