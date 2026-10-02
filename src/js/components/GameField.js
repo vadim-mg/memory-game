@@ -11,35 +11,23 @@ export class GameField {
 
     #firstOpenCard = null
 
-    #movesCounter
+    #movesCounterHandler = () => { }
 
-    #pairsCounter
+    #pairsCounterHandler = () => { }
 
-    constructor(movesCounter, pairsCounter) {
+    constructor() {
         this.#element = document.createElement('main');
         this.#element.classList.add('game-field');
         this.#element.classList.add('container');
-        this.#movesCounter = movesCounter
-        this.#pairsCounter = pairsCounter
     }
 
     initCards(cardImages) {
         this.#element.replaceChildren();
 
-        console.log('cardImages')
-        console.log(cardImages)
-
         const imageKeys = Object.keys(cardImages)
-
-        console.log('imageKeys')
-        console.log(imageKeys)
 
         this.#allRandomImageKeys = [...imageKeys, ...imageKeys]
             .sort(() => Math.random() - 0.5);
-
-        console.debug('this.#allRandomImageKeys')
-        console.debug(this.#allRandomImageKeys)
-
 
         this.#allRandomImageKeys.forEach((imageKey, cardId) => {
             const imageInfo = cardImages[imageKey]
@@ -53,18 +41,12 @@ export class GameField {
             this.#cards[card.id] = card
             card.enable()
         }, {});
-        console.log('this.#cards');
-        console.log(this.#cards);
     }
 
     #cardClickHandler(cardId) {
-        console.log(`-----------click-----------------`)
-        console.log(`card::${cardId}`)
         const pairId = this.#allRandomImageKeys[cardId]
-        console.log(`pairId::${pairId}`)
 
         const card = this.#cards[cardId]
-        console.log(card)
         card.disable()
         if (!this.#firstOpenCard) {
             this.#firstOpenCard = card
@@ -72,14 +54,15 @@ export class GameField {
             return
         }
 
-        this.#movesCounter.increment();
+        // this.#movesCounter.increment();
+        this.#movesCounterHandler();
 
         if (pairId == this.#allRandomImageKeys[this.#firstOpenCard.id]) {
             this.#firstOpenCard = null
             card.show()
             this.#firstOpenCard = null
 
-            this.#pairsCounter.increment();
+            this.#pairsCounterHandler();
             return
         }
 
@@ -94,5 +77,13 @@ export class GameField {
 
     get element() {
         return this.#element;
+    }
+
+    onMoves(func){
+        this.#movesCounterHandler = func
+    }
+
+    onPair(func){
+        this.#pairsCounterHandler = func
     }
 }

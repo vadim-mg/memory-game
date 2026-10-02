@@ -22,7 +22,7 @@ countersPanel.appendChild(movesCounter.element)
 const pairsCounter = new Counter(0, 'Найдено пар')
 countersPanel.appendChild(pairsCounter.element)
 
-const gameFiled = new GameField(movesCounter, pairsCounter)
+const gameFiled = new GameField()
 gameFiled.initCards(CARD_IMAGES)
 document.body.appendChild(gameFiled.element)
 
@@ -31,3 +31,6 @@ btnNewGame.onClick(() => {
     movesCounter.reset()
     pairsCounter.reset()
 })
+
+gameFiled.onMoves(() => movesCounter.increment())
+gameFiled.onPair(() => pairsCounter.increment())
