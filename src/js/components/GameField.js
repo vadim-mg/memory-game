@@ -15,6 +15,8 @@ export class GameField {
 
     #pairsCounterHandler = () => { }
 
+    #checkWinHandler = () => { }
+
     constructor() {
         this.#element = document.createElement('main');
         this.#element.classList.add('game-field');
@@ -41,6 +43,8 @@ export class GameField {
             this.#cards[card.id] = card
             card.enable()
         }, {});
+
+        this.#firstOpenCard = false;
     }
 
     #cardClickHandler(cardId) {
@@ -58,16 +62,22 @@ export class GameField {
         this.#movesCounterHandler();
 
         if (pairId == this.#allRandomImageKeys[this.#firstOpenCard.id]) {
-            this.#firstOpenCard = null
+            // this.#firstOpenCard = null
             card.show()
+            card.found()
+            this.#firstOpenCard.found()
             this.#firstOpenCard = null
 
             this.#pairsCounterHandler();
+            this.#checkWinHandler();
             return
         }
 
         card.show(true)
         this.#firstOpenCard.hide(true)
+        setTimeout(() => {
+            card.hide(true)
+        }, 0);
         this.#firstOpenCard = null
 
         this.#cards.forEach(card => {
@@ -79,11 +89,15 @@ export class GameField {
         return this.#element;
     }
 
-    onMoves(func){
-        this.#movesCounterHandler = func
+    onMoves(handler) {
+        this.#movesCounterHandler = handler
     }
 
-    onPair(func){
-        this.#pairsCounterHandler = func
+    onPair(handler) {
+        this.#pairsCounterHandler = handler
+    }
+
+    onCheckWin(handler) {
+        this.#checkWinHandler = handler
     }
 }

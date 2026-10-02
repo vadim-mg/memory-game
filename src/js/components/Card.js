@@ -28,6 +28,9 @@ export class Card {
         
         this.#element = document.createElement('div')
         this.#element.id = this.#id
+
+        // подсказка для review
+        this.#element.dataset.reviewHelp = altText
         this.#element.classList.add('card')
         this.hide()
         this.disable()
@@ -56,6 +59,9 @@ export class Card {
     }
 
     hide(delay = false) {
+        if(this.#img){
+            this.#img.style.opacity = 0;
+        }
         setTimeout(() => {
             this.#hidden = true
             this.#element.classList.add('card_hidden')
@@ -92,5 +98,9 @@ export class Card {
 
     get element() {
         return this.#element
+    }
+
+    found(){
+        this.#element.classList.add('card_found')
     }
 }

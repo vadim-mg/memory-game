@@ -3,6 +3,7 @@ import { CARD_IMAGES } from './components/images.js'
 import { GameField } from './components/GameField.js'
 import { Button } from './components/Button.js'
 import { Counter } from './components/Counter.js'
+import { Modal } from './components/modal.js'
 
 import '@/scss/main.scss'
 
@@ -22,15 +23,49 @@ countersPanel.appendChild(movesCounter.element)
 const pairsCounter = new Counter(0, 'Найдено пар')
 countersPanel.appendChild(pairsCounter.element)
 
-const gameFiled = new GameField()
-gameFiled.initCards(CARD_IMAGES)
-document.body.appendChild(gameFiled.element)
+const gameField = new GameField()
+gameField.initCards(CARD_IMAGES)
+document.body.appendChild(gameField.element)
 
-btnNewGame.onClick(() => {
-    gameFiled.initCards(CARD_IMAGES)
+const modal = new Modal()
+document.body.appendChild(modal.element)
+
+function newGame() {
+    modal.close()
+    gameField.initCards(CARD_IMAGES)
     movesCounter.reset()
     pairsCounter.reset()
+}
+
+btnNewGame.onClick(newGame)
+
+
+gameField.onMoves(() => movesCounter.increment())
+gameField.onPair(() => pairsCounter.increment())
+gameField.onCheckWin(() => {
+    if (pairsCounter.value !== CARD_IMAGES.length) {
+        return
+    }
+    const h2 = document.createElement('h2')
+    h2.textContent = 'Победа!'
+
+    const result = document.createElement('div')
+    result.textContent = `Игра завершена за ${movesCounter.value} ходов`
+
+    const btnNewGameInModal = new Button('Новая игра', 'modal__btn')
+    btnNewGameInModal.onClick(newGame)
+
+    const closeBtn = new Button('Закрыть', 'modal__btn')
+    closeBtn.onClick(() => {
+        modal.close()
+    })
+
+    modal.setContent(h2, result, btnNewGameInModal.element, closeBtn.element)
+
+    modal.open()
 })
 
-gameFiled.onMoves(() => movesCounter.increment())
-gameFiled.onPair(() => pairsCounter.increment())
+
+btnLeaders.onClick(() => {
+
+})
