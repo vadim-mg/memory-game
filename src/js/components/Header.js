@@ -16,11 +16,12 @@ export class Header {
         const buttonGroup = document.createElement('div')
         buttonGroup.classList.add('header__button-group')
         buttonGroup.append(...children)
-        
+
         container.append(buttonGroup)
 
         this.#header.append(container)
     }
+
 
     get element() {
         return this.#header

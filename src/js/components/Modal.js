@@ -5,26 +5,22 @@ export class Modal {
     #element;
     #content;
 
-    /**
-     * @param {string} className
-     */
-    constructor(modifier = '') {
+    constructor() {
         this.#element = document.createElement('dialog');
         this.#element.classList.add('modal');
-        if (modifier) this.#element.classList.add(`modal--${modifier}`);
 
         this.#content = document.createElement('div');
         this.#content.classList.add('modal__content');
         this.#element.append(this.#content);
 
-        // закрытие по backdrop
+        // close on backdrop click
         this.#element.addEventListener('click', (event) => {
             if (event.target === this.#element) {
                 this.close();
             }
         });
 
-        // снятие блокировки скролла — при любом закрытии
+        // restore body scroll on any close
         this.#element.addEventListener('close', () => {
             document.body.style.overflow = '';
         });
@@ -36,12 +32,16 @@ export class Modal {
 
     /**
      * @param {...Node} children
+     * @returns {this}
      */
     setContent(...children) {
         this.#content.replaceChildren(...children);
         return this;
     }
 
+    /**
+     * @returns {this}
+     */
     open() {
         if (!this.#element.open) {
             this.#element.showModal();
@@ -50,6 +50,9 @@ export class Modal {
         return this;
     }
 
+    /**
+     * @returns {this}
+     */
     close() {
         if (this.#element.open) {
             this.#element.close();

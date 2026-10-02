@@ -9,15 +9,11 @@ export class Button {
      */
     constructor(text, additionalClass = '') {
         this.#element = document.createElement('button');
-        this.#element.classList.add('button');
         this.#element.type = 'button';
         this.#element.textContent = text;
+        this.#element.classList.add('button');
 
-        if (Array.isArray(additionalClass)) {
-            this.#element.classList.add(...additionalClass.filter(Boolean));
-        } else if (additionalClass) {
-            this.#element.classList.add(additionalClass);
-        }
+        this.#applyClasses(additionalClass);
     }
 
     get element() {
@@ -49,5 +45,16 @@ export class Button {
     setText(text) {
         this.#element.textContent = text;
         return this;
+    }
+
+    /**
+     * @param {string | string[]} additionalClass
+     */
+    #applyClasses(additionalClass) {
+        if (Array.isArray(additionalClass)) {
+            this.#element.classList.add(...additionalClass.filter(Boolean));
+        } else if (additionalClass) {
+            this.#element.classList.add(additionalClass);
+        }
     }
 }
