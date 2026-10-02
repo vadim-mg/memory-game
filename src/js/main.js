@@ -19,11 +19,15 @@ document.body.appendChild(countersPanel)
 const movesCounter = new Counter(0, 'Ходы')
 countersPanel.appendChild(movesCounter.element)
 
-const gameFiled = new GameField(movesCounter)
+const pairsCounter = new Counter(0, 'Найдено пар')
+countersPanel.appendChild(pairsCounter.element)
+
+const gameFiled = new GameField(movesCounter, pairsCounter)
 gameFiled.initCards(CARD_IMAGES)
 document.body.appendChild(gameFiled.element)
 
 btnNewGame.onClick(() => {
     gameFiled.initCards(CARD_IMAGES)
     movesCounter.reset()
+    pairsCounter.reset()
 })

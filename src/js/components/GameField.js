@@ -13,11 +13,14 @@ export class GameField {
 
     #movesCounter
 
-    constructor(movesCounter) {
+    #pairsCounter
+
+    constructor(movesCounter, pairsCounter) {
         this.#element = document.createElement('main');
         this.#element.classList.add('game-field');
         this.#element.classList.add('container');
         this.#movesCounter = movesCounter
+        this.#pairsCounter = pairsCounter
     }
 
     initCards(cardImages) {
@@ -73,10 +76,10 @@ export class GameField {
 
         if (pairId == this.#allRandomImageKeys[this.#firstOpenCard.id]) {
             this.#firstOpenCard = null
-            console.log('!!!!!!!!!!!!!!!')
             card.show()
             this.#firstOpenCard = null
 
+            this.#pairsCounter.increment();
             return
         }
 
