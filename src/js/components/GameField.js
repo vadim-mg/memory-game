@@ -7,7 +7,13 @@ export class GameField {
 
     #cards = []
 
-    #pairIds = []
+    #allRandomImageKeys = []
+
+    #firstOpenCard = null
+
+    #secondOpenCard = null
+
+
 
     constructor() {
         this.#element = document.createElement('main');
@@ -18,43 +24,68 @@ export class GameField {
     initCards(cardImages) {
         this.#element.replaceChildren();
 
-        // const indexedCardImages = CARD_IMAGES.map((card, index) => ({
-        //     id: index,
-        //     ...card,
-        // }));
-
+        console.log('cardImages')
         console.log(cardImages)
 
-        const cardKeys = Object.keys(cardImages)
+        const imageKeys = Object.keys(cardImages)
 
-        console.log(cardKeys)
+        console.log('imageKeys')
+        console.log(imageKeys)
 
-        const allRandomCardKeys = [...cardKeys, ...cardKeys]
+        this.#allRandomImageKeys = [...imageKeys, ...imageKeys]
             .sort(() => Math.random() - 0.5);
 
-        console.debug(allRandomCardKeys)
+        console.debug('this.#allRandomImageKeys')
+        console.debug(this.#allRandomImageKeys)
 
 
-        this.#pairIds = allRandomCardKeys.reduce((acc, cardKey, index) => {
-
-            const imageInfo = cardImages[cardKey]
-            const card = new Card(index, imageInfo.url, imageInfo.altText);
+        this.#allRandomImageKeys.forEach((imageKey, cardId) => {
+            const imageInfo = cardImages[imageKey]
+            const card = new Card(cardId, imageInfo.url, imageInfo.altText);
             card.onClick(() => {
                 console.log('click - id:' + card.id)
-                card.show()
-
+                this.#cards[card.id] = card
+                this.#cardClickHandler(card.id)
             })
             this.#element.append(card.element);
-
-            if (acc[cardKey]) {
-                acc[cardKey].push(card);
-            } else {
-                acc[cardKey] = [card];
-            }
-            return acc;
+            this.#cards[card.id] = card
+            card.enable()
         }, {});
+        console.log('this.#cards');
         console.log(this.#cards);
-        console.log(this.#pairIds);
+    }
+
+    #cardClickHandler(cardId) {
+        console.log(`-----------click-----------------`)
+        console.log(`card::${cardId}`)
+        const pairId = this.#allRandomImageKeys[cardId]
+        console.log(`pairId::${pairId}`)
+
+        const card = this.#cards[cardId]
+        console.log(card)
+        card.disable()
+        if (!this.#firstOpenCard) {
+            this.#firstOpenCard = card
+            card.show()
+            return
+        }
+
+        if (pairId == this.#allRandomImageKeys[this.#firstOpenCard.id]) {
+            this.#firstOpenCard = null
+            console.log('!!!!!!!!!!!!!!!')
+            card.show()
+            this.#firstOpenCard = null
+
+            return
+        }
+
+        card.show(true)
+        this.#firstOpenCard.hide(true)
+        this.#firstOpenCard = null
+
+        this.#cards.forEach(card => {
+            card.disable(true)
+        })
     }
 
     get element() {

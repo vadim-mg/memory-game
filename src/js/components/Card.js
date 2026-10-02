@@ -1,5 +1,7 @@
 import '@/scss/components/_card.scss'
 
+const DELAY_SHOW_CARDS = 800
+
 export class Card {
     #id
     #url
@@ -9,6 +11,8 @@ export class Card {
     #img
 
     #hidden
+
+    #disabled
 
     /**
      * Добавление карточки
@@ -21,24 +25,46 @@ export class Card {
         this.#id = id
         this.#url = url
         this.#altText = altText
-
+        
         this.#element = document.createElement('div')
         this.#element.id = this.#id
         this.#element.classList.add('card')
         this.hide()
+        this.disable()
     }
 
     get id() {
         return this.#id
     }
 
-    hide() {
-        this.#hidden = true
-        this.#element.classList.add('card_hidden')
-        this.#img?.remove()
+    get disabled() {
+        return this.#disabled
     }
 
-    show() {
+    disable(enableAfterDelay = false) {
+        this.#element.classList.add('card_disabled')
+        this.#disabled = true
+        if (enableAfterDelay) {
+            setTimeout(() => {
+                this.enable()
+            }, DELAY_SHOW_CARDS)
+        }
+    }
+    enable() {
+        this.#disabled = false
+        this.#element.classList.remove('card_disabled')
+    }
+
+    hide(delay = false) {
+        setTimeout(() => {
+            this.#hidden = true
+            this.#element.classList.add('card_hidden')
+            this.#img?.remove()
+        }, delay ? DELAY_SHOW_CARDS : 0)
+    }
+
+
+    show(delay = false) {
         this.#hidden = false
         this.#element.classList.remove('card_hidden')
         this.#img = document.createElement('img')
@@ -46,10 +72,22 @@ export class Card {
         this.#img.src = this.#url
         this.#img.alt = this.#altText
         this.#element.append(this.#img)
+        if (delay) {
+            setTimeout(() => {
+                this.hide()
+                this.enable()
+            }, DELAY_SHOW_CARDS)
+        }
     }
 
     onClick(func = () => { }) {
-        this.#element.addEventListener('click', func)
+        this.#element.addEventListener('click', () => {
+            if (this.disabled) {
+                console.log('disabled!')
+                return
+            }
+            func()
+        })
     }
 
     get element() {

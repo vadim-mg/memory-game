@@ -10,8 +10,18 @@
     border: 1px solid #000;
     border-radius: 1rem;
     background-color: #fff;
+    cursor: pointer;
+
     &_hidden {
         background-color: yellow;
+
+        &.card_disabled {
+            background-color: rgb(170, 170, 65);
+        }
+    }
+
+    &_disabled {
+        cursor: inherit;
     }
 }
 
