@@ -59,11 +59,9 @@ gameField.onPair(() => pairsCounter.increment())
 
 
 gameField.onCheckWin(() => {
-    // if (pairsCounter.value !== CARD_IMAGES.length) {
     if (pairsCounter.value  < 2) {
         return
     }
-    console.log('!!!!!!!win')
     leadersTable.pushResult(movesCounter.value)
 
     const h2 = document.createElement('h2')
@@ -89,7 +87,6 @@ btnLeaders.onClick(() => {
     h2.textContent = 'Лучшие результаты!'
 
     const result = document.createElement('div')
-    console.log(leadersTable.tableSize)
     result.append(leadersTable.tableSize ? leadersTable.element : [])
 
     const closeBtn = new Button('Закрыть', 'modal__btn')

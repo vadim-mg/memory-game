@@ -77,7 +77,6 @@ export class LeadersTable {
             movesCount,
             timeStamp: Date.now(),
         }
-        console.log(dataRow)
         this.#data.push(dataRow)
         localStorage.setItem(LS_KEY, JSON.stringify(this.#data));
     }

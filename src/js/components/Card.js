@@ -89,7 +89,6 @@ export class Card {
     onClick(func = () => { }) {
         this.#element.addEventListener('click', () => {
             if (this.disabled) {
-                console.log('disabled!')
                 return
             }
             func()

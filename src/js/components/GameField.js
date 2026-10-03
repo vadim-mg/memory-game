@@ -35,7 +35,6 @@ export class GameField {
             const imageInfo = cardImages[imageKey]
             const card = new Card(cardId, imageInfo.url, imageInfo.altText);
             card.onClick(() => {
-                console.log('click - id:' + card.id)
                 this.#cards[card.id] = card
                 this.#cardClickHandler(card.id)
             })
