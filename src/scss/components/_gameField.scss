@@ -1,0 +1,9 @@
+.game-field {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(4, min-content);
+    gap: 0.25rem;
+    container-type: inline-size;
+    padding: 0.5rem;
+    background-color: rgb(168 172 163 / 56%)
+}

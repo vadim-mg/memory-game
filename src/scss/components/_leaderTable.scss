@@ -1,0 +1,25 @@
+/* ===== Обёртка для скругления и тени ===== */
+.leader-table {
+    width: 100%;
+    max-width: 640px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.35),
+        0 2px 6px rgba(0, 0, 0, 0.15);
+    font-size: 15px;
+    color: #2a2f45;
+}
+
+.leader-table thead th {
+    padding: 0.25rem;
+    background-color:#2a2f4533;
+    text-align: center;
+}
+.leader-table td {
+    padding: 0.25rem;
+    text-align: center;
+}

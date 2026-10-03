@@ -1,0 +1,68 @@
+.modal {
+    border: none;
+    padding: 0;
+    width: min(90vw, 440px);
+    background: transparent;
+    color: inherit;
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+    }
+
+    // лёгкая анимация появления
+    &[open] {
+        animation: modal-in 0.2s ease;
+    }
+}
+
+@keyframes modal-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal__content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal__title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #111;
+}
+
+.modal__text {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+// модификаторы
+.modal--win {
+    width: min(90vw, 380px);
+    text-align: center;
+}
+
+.modal--leaders {
+    width: min(90vw, 520px);
+}

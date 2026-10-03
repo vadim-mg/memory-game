@@ -1,0 +1,12 @@
+body{
+    margin: 0;
+}
+
+.counters-panel {
+    width: 100%;
+    max-width: 380px;
+    margin: 0.5rem auto;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}

@@ -1,0 +1,17 @@
+.header {
+    background-color: #6dd05b;
+}
+
+.header__btn {
+    background-color: #fff;
+    padding: 0.25rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+
+.header__button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+}
