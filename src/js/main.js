@@ -59,7 +59,7 @@ gameField.onPair(() => pairsCounter.increment())
 
 
 gameField.onCheckWin(() => {
-    if (pairsCounter.value  < 2) {
+    if (pairsCounter.value !== CARD_IMAGES.length) {
         return
     }
     leadersTable.pushResult(movesCounter.value)
