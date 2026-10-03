@@ -8,17 +8,21 @@ import { Card } from './Card.js';
 export class GameField {
     #element
 
+    /** @type {Card[]} */
     #cards = []
 
     #allRandomImageKeys = []
 
     #firstOpenCard = null
 
-    #movesCounterHandler = () => { }
+    /** @type {(moves?: number) => void} */
+    #movesCounterHandler = (moves) => { }
 
-    #pairsCounterHandler = () => { }
-
-    #checkWinHandler = () => { }
+    /** @type {(pairs?: number) => void} */
+    #pairsCounterHandler = (pairs) => { }
+    
+    /** @type {(message?: string) => void} */
+    #checkWinHandler = (message) => { }
 
     constructor() {
         this.#element = document.createElement('main');
@@ -128,5 +132,30 @@ export class GameField {
      */
     onCheckWin(handler) {
         this.#checkWinHandler = handler
+    }
+
+    /**
+     * Cheat: instantly wins the game with a random move count (15–50).
+     * Marks all cards as found and triggers pair/win handlers.
+     * @param {number} [min=15]
+     * @param {number} [max=50]
+     * @returns {void}
+     */
+    cheaterWin(min = 15, max = 50) {
+        // open all cards
+        this.#cards.forEach(card => {
+            card.show()
+            card.found()
+            card.disable()
+        })
+
+        // set random moves
+        const moves = Math.floor(Math.random() * (max - min + 1)) + min
+
+        this.#movesCounterHandler(moves)
+        this.#pairsCounterHandler(this.#cards.length / 2)
+
+        this.#firstOpenCard = null
+        this.#checkWinHandler('You are cheater :)')
     }
 }

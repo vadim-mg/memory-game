@@ -93,6 +93,9 @@ export class Card {
      * @returns {void}
      */
     show(delay = false) {
+        if(!this.#hidden){
+            return
+        }
         this.#hidden = false
         this.#element.classList.remove('card_hidden')
 

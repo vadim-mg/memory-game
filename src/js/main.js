@@ -7,6 +7,7 @@ import { Modal } from './components/modal.js'
 
 import '@/scss/main.scss'
 import { LeadersTable } from './components/LeaderTable.js'
+import { onSecretCode } from './utils/secretCode.js'
 
 // --- header ---
 const btnNewGame = new Button('Новая игра', 'header__btn')
@@ -31,6 +32,8 @@ const modal = new Modal()
 // --- Leaders table ---
 const leadersTable = new LeadersTable
 
+let unsubscribeCheaterFunction
+
 
 // --- page render ---
 document.body.append(
@@ -48,24 +51,27 @@ function newGame() {
     gameField.initCards(CARD_IMAGES)
     movesCounter.reset()
     pairsCounter.reset()
+    unsubscribeCheaterFunction = onSecretCode(() => {
+        gameField.cheaterWin(15, 100)
+    })
 }
 
 
 // --- events ---
 btnNewGame.onClick(newGame)
 
-gameField.onMoves(() => movesCounter.increment())
-gameField.onPair(() => pairsCounter.increment())
+gameField.onMoves((count) => movesCounter.increment(count))
+gameField.onPair((count) => pairsCounter.increment(count))
 
 
-gameField.onCheckWin(() => {
-    if (pairsCounter.value !== CARD_IMAGES.length) {
+gameField.onCheckWin((message) => {
+    if (pairsCounter.value < CARD_IMAGES.length) {
         return
     }
     leadersTable.pushResult(movesCounter.value)
 
     const h2 = document.createElement('h2')
-    h2.textContent = 'Победа!'
+    h2.textContent = 'Победа! ' + (message ?? '')
 
     const result = document.createElement('div')
     result.textContent = `Игра завершена за ${movesCounter.value} ходов`
@@ -78,6 +84,8 @@ gameField.onCheckWin(() => {
 
     modal.setContent(h2, result, btnNewGameInModal.element, closeBtn.element)
     modal.open()
+    
+    unsubscribeCheaterFunction()
 })
 
 // --- Leader table ---
@@ -95,3 +103,6 @@ btnLeaders.onClick(() => {
     modal.setContent(h2, result, closeBtn.element)
     modal.open()
 })
+
+// --- game start ---
+newGame()
