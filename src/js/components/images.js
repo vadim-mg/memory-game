@@ -1,13 +1,22 @@
-
 const images = import.meta.glob('/src/images/*.{jpg,jpeg,png,webp}', {
     eager: true,
     import: 'default',
 })
+
+/**
+ * Resolves the URL of an image by its file name
+ * @param {string} fileName
+ * @returns {string}
+ */
 function getImageUrl(fileName) {
     const entry = Object.entries(images).find(([path]) => path.endsWith(`/${fileName}`))
     return entry?.[1] ?? ''
 }
 
+/**
+ * Card images used in the game (url + alt text)
+ * @type {{ url: string, altText: string }[]}
+ */
 const CARD_IMAGES = [
     {
         url: getImageUrl('images/01.jpeg'),

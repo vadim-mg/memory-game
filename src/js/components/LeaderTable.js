@@ -1,15 +1,31 @@
 import '@/scss/components/_leaderTable.scss'
+
 const LS_KEY = 'ls-leader-table'
 
+/**
+ * @typedef {{ movesCount: number, timeStamp: number }} LeaderRow
+ */
+
+/**
+ * LeadersTable — renders a top-10 leaderboard from localStorage.
+ */
 export class LeadersTable {
+    /** @type {LeaderRow[]} */
     #data
+
+    /** @type {HTMLTableElement | undefined} */
     #element
+
     constructor() {
         const raw = localStorage.getItem(LS_KEY)
         this.#data = raw ? JSON.parse(raw) : []
         this.#render()
     }
 
+    /**
+     * Renders the whole table (header + body)
+     * @returns {void}
+     */
     #render() {
         this.#element = document.createElement('table');
         this.#element.classList.add('leader-table');
@@ -63,16 +79,29 @@ export class LeadersTable {
         this.#element.append(thead, tbody);
     }
 
+    /**
+     * Returns the (re-rendered) table element
+     * @returns {HTMLTableElement}
+     */
     get element() {
         this.#render()
         return this.#element
     }
 
+    /**
+     * @returns {number} number of stored rows
+     */
     get tableSize() {
         return this.#data.length
     }
 
+    /**
+     * Adds a new result and persists it to localStorage
+     * @param {number} movesCount
+     * @returns {void}
+     */
     pushResult(movesCount) {
+        /** @type {LeaderRow} */
         const dataRow = {
             movesCount,
             timeStamp: Date.now(),

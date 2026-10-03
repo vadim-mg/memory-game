@@ -5,7 +5,7 @@ export class Button {
 
     /**
      * @param {string} text
-     * @param {string | string[]} additionalClass
+     * @param {string | string[]} [additionalClass='']
      */
     constructor(text, additionalClass = '') {
         this.#element = document.createElement('button');
@@ -30,7 +30,7 @@ export class Button {
     }
 
     /**
-     * @param {boolean} value
+     * @param {boolean} [value=true]
      * @returns {this}
      */
     setDisabled(value = true) {
@@ -49,12 +49,10 @@ export class Button {
 
     /**
      * @param {string | string[]} additionalClass
+     * @returns {void}
      */
     #applyClasses(additionalClass) {
-        if (Array.isArray(additionalClass)) {
-            this.#element.classList.add(...additionalClass.filter(Boolean));
-        } else if (additionalClass) {
-            this.#element.classList.add(additionalClass);
-        }
+        const classes = Array.isArray(additionalClass) ? additionalClass : [additionalClass];
+        this.#element.classList.add(...classes.filter(Boolean));
     }
 }

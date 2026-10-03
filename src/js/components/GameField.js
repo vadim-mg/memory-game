@@ -1,7 +1,10 @@
-
 import '@/scss/components/_gameField.scss';
 import { Card } from './Card.js';
 
+/**
+ * GameField — grid of memory cards with click handling,
+ * move/pair counters and win detection.
+ */
 export class GameField {
     #element
 
@@ -23,6 +26,11 @@ export class GameField {
         this.#element.classList.add('container');
     }
 
+    /**
+     * Builds the card grid from the given images (each image is duplicated as a pair)
+     * @param {Record<string, { url: string, altText: string }>} cardImages
+     * @returns {void}
+     */
     initCards(cardImages) {
         this.#element.replaceChildren();
 
@@ -46,6 +54,12 @@ export class GameField {
         this.#firstOpenCard = false;
     }
 
+    /**
+     * Handles a card click: opens the first card, compares the second with it,
+     * marks a found pair or hides both cards
+     * @param {number} cardId
+     * @returns {void}
+     */
     #cardClickHandler(cardId) {
         const pairId = this.#allRandomImageKeys[cardId]
 
@@ -57,11 +71,9 @@ export class GameField {
             return
         }
 
-        // this.#movesCounter.increment();
         this.#movesCounterHandler();
 
         if (pairId == this.#allRandomImageKeys[this.#firstOpenCard.id]) {
-            // this.#firstOpenCard = null
             card.show()
             card.found()
             this.#firstOpenCard.found()
@@ -84,18 +96,36 @@ export class GameField {
         })
     }
 
+    /**
+     * @returns {HTMLElement}
+     */
     get element() {
         return this.#element;
     }
 
+    /**
+     * Registers a handler called on each move
+     * @param {() => void} handler
+     * @returns {void}
+     */
     onMoves(handler) {
         this.#movesCounterHandler = handler
     }
 
+    /**
+     * Registers a handler called when a pair is found
+     * @param {() => void} handler
+     * @returns {void}
+     */
     onPair(handler) {
         this.#pairsCounterHandler = handler
     }
 
+    /**
+     * Registers a handler called when all pairs are found
+     * @param {() => void} handler
+     * @returns {void}
+     */
     onCheckWin(handler) {
         this.#checkWinHandler = handler
     }

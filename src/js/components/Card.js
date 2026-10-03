@@ -15,23 +15,26 @@ export class Card {
     #disabled
 
     /**
-     * Добавление карточки
+     * Creates a card
      * @param {number} id
      * @param {string} url
      * @param {string} altText
-     * @param {string} additionalClass - additional class
+     * @param {string | string[]} [additionalClass=''] - additional class(es)
      */
     constructor(id, url, altText, additionalClass = '') {
         this.#id = id
         this.#url = url
         this.#altText = altText
-        
+
         this.#element = document.createElement('div')
         this.#element.id = this.#id
 
-        // подсказка для review
+        // hint for review
         this.#element.dataset.reviewHelp = altText
         this.#element.classList.add('card')
+
+        this.#applyClasses(additionalClass)
+
         this.hide()
         this.disable()
     }
@@ -44,24 +47,39 @@ export class Card {
         return this.#disabled
     }
 
+    /**
+     * Disables the card
+     * @param {boolean} [enableAfterDelay=false] - re-enable after DELAY_SHOW_CARDS
+     * @returns {void}
+     */
     disable(enableAfterDelay = false) {
         this.#element.classList.add('card_disabled')
         this.#disabled = true
+
         if (enableAfterDelay) {
-            setTimeout(() => {
-                this.enable()
-            }, DELAY_SHOW_CARDS)
+            setTimeout(() => this.enable(), DELAY_SHOW_CARDS)
         }
     }
+
+    /**
+     * Enables the card
+     * @returns {void}
+     */
     enable() {
         this.#disabled = false
         this.#element.classList.remove('card_disabled')
     }
 
+    /**
+     * Hides the card
+     * @param {boolean} [delay=false] - use DELAY_SHOW_CARDS before hiding
+     * @returns {void}
+     */
     hide(delay = false) {
-        if(this.#img){
-            this.#img.style.opacity = 0;
+        if (this.#img) {
+            this.#img.style.opacity = 0
         }
+
         setTimeout(() => {
             this.#hidden = true
             this.#element.classList.add('card_hidden')
@@ -69,15 +87,21 @@ export class Card {
         }, delay ? DELAY_SHOW_CARDS : 0)
     }
 
-
+    /**
+     * Shows the card
+     * @param {boolean} [delay=false] - auto-hide after DELAY_SHOW_CARDS
+     * @returns {void}
+     */
     show(delay = false) {
         this.#hidden = false
         this.#element.classList.remove('card_hidden')
+
         this.#img = document.createElement('img')
         this.#img.classList.add('card__image')
         this.#img.src = this.#url
         this.#img.alt = this.#altText
         this.#element.append(this.#img)
+
         if (delay) {
             setTimeout(() => {
                 this.hide()
@@ -86,7 +110,12 @@ export class Card {
         }
     }
 
-    onClick(func = () => { }) {
+    /**
+     * Registers a click handler (ignored while disabled)
+     * @param {() => void} [func=() => {}]
+     * @returns {void}
+     */
+    onClick(func = () => {}) {
         this.#element.addEventListener('click', () => {
             if (this.disabled) {
                 return
@@ -99,7 +128,21 @@ export class Card {
         return this.#element
     }
 
-    found(){
+    /**
+     * Marks the card as found
+     * @returns {void}
+     */
+    found() {
         this.#element.classList.add('card_found')
+    }
+
+    /**
+     * Applies one or several additional classes
+     * @param {string | string[]} additionalClass
+     * @returns {void}
+     */
+    #applyClasses(additionalClass) {
+        const classes = Array.isArray(additionalClass) ? additionalClass : [additionalClass]
+        this.#element.classList.add(...classes.filter(Boolean))
     }
 }
