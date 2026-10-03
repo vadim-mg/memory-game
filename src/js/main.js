@@ -6,6 +6,7 @@ import { Counter } from './components/Counter.js'
 import { Modal } from './components/modal.js'
 
 import '@/scss/main.scss'
+import { LeadersTable } from './components/LeaderTable.js'
 
 // --- header ---
 const btnNewGame = new Button('Новая игра', 'header__btn')
@@ -27,6 +28,10 @@ gameField.initCards(CARD_IMAGES)
 // --- Modal ---
 const modal = new Modal()
 
+// --- Leaders table ---
+const leadersTable = new LeadersTable
+
+
 // --- page render ---
 document.body.append(
     header.element,
@@ -45,16 +50,21 @@ function newGame() {
     pairsCounter.reset()
 }
 
-btnNewGame.onClick(newGame)
 
 // --- events ---
+btnNewGame.onClick(newGame)
+
 gameField.onMoves(() => movesCounter.increment())
 gameField.onPair(() => pairsCounter.increment())
 
+
 gameField.onCheckWin(() => {
-    if (pairsCounter.value !== CARD_IMAGES.length) {
+    // if (pairsCounter.value !== CARD_IMAGES.length) {
+    if (pairsCounter.value  < 2) {
         return
     }
+    console.log('!!!!!!!win')
+    leadersTable.pushResult(movesCounter.value)
 
     const h2 = document.createElement('h2')
     h2.textContent = 'Победа!'
@@ -74,5 +84,17 @@ gameField.onCheckWin(() => {
 
 // --- Leader table ---
 btnLeaders.onClick(() => {
-    // TODO: открыть модалку с таблицей лидеров
+
+    const h2 = document.createElement('h2')
+    h2.textContent = 'Лучшие результаты!'
+
+    const result = document.createElement('div')
+    console.log(leadersTable.tableSize)
+    result.append(leadersTable.tableSize ? leadersTable.element : [])
+
+    const closeBtn = new Button('Закрыть', 'modal__btn')
+    closeBtn.onClick(() => modal.close())
+
+    modal.setContent(h2, result, closeBtn.element)
+    modal.open()
 })
