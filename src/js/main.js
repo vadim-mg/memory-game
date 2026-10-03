@@ -1,5 +1,5 @@
 import { Header } from './components/Header.js'
-import { CARD_IMAGES } from './components/images.js'
+import { CARD_IMAGES } from './data/images.js'
 import { GameField } from './components/GameField.js'
 import { Button } from './components/Button.js'
 import { Counter } from './components/Counter.js'

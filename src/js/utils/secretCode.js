@@ -2,7 +2,7 @@
  * Secret code:magic
  * @type {string[]}
  */
-const SECRET_SEQUENCE = ['h', 'a', 'c', 'k']
+const SECRET_SEQUENCE = ['i', 'd', 'd', 'q', 'd']
 
 /**
  * Subscribes to the secret key sequence.
